@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+import no.westerdals.pokemon.NfcHelper;
 import no.westerdals.pokemon.R;
 
 public class RegisterCodeActivity extends AppCompatActivity {
@@ -76,9 +77,9 @@ public class RegisterCodeActivity extends AppCompatActivity {
             Ndef ndef = Ndef.get(tag);
             try {
                 ndef.connect();
-                Log.d("NFC", "WRITABLE: " + ndef.isWritable());
-                Log.d("NFC", formatHex(ndef.getNdefMessage().toByteArray()));
-                Log.d("NFC", new String(ndef.getNdefMessage().getRecords()[0].getPayload()));
+                for (NfcHelper.MessageFormat messageFormat : NfcHelper.parseMessage(ndef.getNdefMessage())) {
+                    Log.d("NFC", messageFormat.toString());
+                }
             } catch (IOException | FormatException e) {
                 e.printStackTrace();
             }
