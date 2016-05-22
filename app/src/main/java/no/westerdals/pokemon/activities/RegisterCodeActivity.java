@@ -1,66 +1,42 @@
 package no.westerdals.pokemon.activities;
 
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.nfc.FormatException;
 import android.nfc.NfcAdapter;
-import android.nfc.NfcManager;
 import android.nfc.Tag;
-import android.nfc.tech.Ndef;
-import android.nfc.tech.NfcA;
-import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.EditText;
 
-import java.io.IOException;
-
-import no.westerdals.pokemon.NfcHelper;
 import no.westerdals.pokemon.R;
+import no.westerdals.pokemon.nfc.PokemonNfcReader;
 
 public class RegisterCodeActivity extends AppCompatActivity {
-    private NfcAdapter nfcAdapter;
-    private PendingIntent nfcPendingIntent;
-    private IntentFilter[] nfcIntentFilter;
-    private String[][] nfcTechList = new String[][] {new String[] {NfcF.class.getName()}, new String[] {NfcA.class.getName()}};
+    private final PokemonNfcReader nfcReader = new PokemonNfcReader(null, this);
+    private EditText inputPokemonId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NfcManager nfcManager = (NfcManager) getSystemService(NFC_SERVICE);
-        if (nfcManager != null) {
-            this.nfcPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass())
-                    .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-            this.nfcAdapter = ((NfcManager) getSystemService(NFC_SERVICE)).getDefaultAdapter();
-            setContentView(R.layout.activity_register);
-            IntentFilter filter = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
-            try {
-                filter.addDataType("*/*");
-            } catch (IntentFilter.MalformedMimeTypeException e) {
-                e.printStackTrace();
-            }
-            nfcIntentFilter = new IntentFilter[]{filter};
-            Log.d("NFC", "NFC initialized");
+        setContentView(R.layout.activity_register);
+        inputPokemonId = (EditText) findViewById(R.id.inputPokemonId);
+        String pokemonId = getIntent().getStringExtra("pokemonId");
+        if (pokemonId != null) {
+            inputPokemonId.setText(pokemonId);
         }
+        nfcReader.initialize();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("NFC", "Resume");
-        if (nfcAdapter != null) {
-            nfcAdapter.enableForegroundDispatch(this, nfcPendingIntent, nfcIntentFilter, nfcTechList);
-        }
+        nfcReader.enableNfc();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("NFC", "paused");
-        if (nfcAdapter != null) {
-            nfcAdapter.disableForegroundDispatch(this);
-        }
+        nfcReader.disableNfc();
     }
 
     @Override
@@ -68,17 +44,7 @@ public class RegisterCodeActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         Log.d("NFC", intent.getAction());
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
-            Log.d("NFC", intent.toString());
-            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            Ndef ndef = Ndef.get(tag);
-            try {
-                ndef.connect();
-                for (NfcHelper.MessageFormat messageFormat : NfcHelper.parseMessage(ndef.getNdefMessage())) {
-                    Log.d("NFC", messageFormat.toString());
-                }
-            } catch (IOException | FormatException e) {
-                e.printStackTrace();
-            }
+            nfcReader.handleIntent(intent);
         }
     }
 
@@ -93,7 +59,4 @@ public class RegisterCodeActivity extends AppCompatActivity {
         }
         return result.substring(1);
     }
-
-    // TODO: Move NFC logic to main activity (and maybe maps) and rather invoke this activity with
-    // a ID whenever a NFC tag is scanned
 }
