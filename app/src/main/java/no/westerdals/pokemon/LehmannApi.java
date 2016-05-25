@@ -22,7 +22,7 @@ public class LehmannApi {
     }
 
     public PokemonInfo getPokemonInfo(String pokemonId) {
-        return get(BASE_URL + "/pokemons/" + pokemonId, true, PokemonInfo.class);
+        return get(BASE_URL + "/pokemon/" + pokemonId, true, PokemonInfo.class);
     }
 
     private <T>T get(String url, boolean setKey, Class<T> t) {
@@ -34,19 +34,16 @@ public class LehmannApi {
             }
             connection.setDoInput(true);
             connection.connect();
-            switch (connection.getResponseCode()) {
-                case 200:
-                    return GSON.fromJson(new InputStreamReader(connection.getInputStream()), t);
-                default:
-                    return null;
-            }
+            if (connection.getResponseCode() == 200) {
+                return GSON.fromJson(new InputStreamReader(connection.getInputStream()), t);
+            } // We only need to check if the get was successful
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         } finally {
             if (connection != null) {
                 connection.disconnect();
             }
         }
+        return null;
     }
 }
