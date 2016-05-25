@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,7 +24,7 @@ import no.westerdals.pokemon.PokemonLocationTask;
 import no.westerdals.pokemon.R;
 import no.westerdals.pokemon.nfc.PokemonNfcReader;
 
-public class PokemonMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     PokemonNfcReader nfcReader = new PokemonNfcReader(RegisterCodeActivity.class, this);
