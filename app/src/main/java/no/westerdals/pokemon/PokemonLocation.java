@@ -1,5 +1,6 @@
 package no.westerdals.pokemon;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 
 public class PokemonLocation {
@@ -23,6 +24,10 @@ public class PokemonLocation {
 
     public double getLng() {
         return lng;
+    }
+
+    public LatLng toLatLng() {
+        return new LatLng(getLat(), getLng());
     }
 
     @Override

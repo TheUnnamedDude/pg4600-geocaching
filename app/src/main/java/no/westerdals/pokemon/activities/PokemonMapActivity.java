@@ -1,32 +1,25 @@
 package no.westerdals.pokemon.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.nfc.NfcAdapter;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.View;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-
-import no.westerdals.pokemon.PokemonLocation;
 import no.westerdals.pokemon.PokemonLocationTask;
 import no.westerdals.pokemon.R;
 import no.westerdals.pokemon.nfc.PokemonNfcReader;
 
-public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class PokemonMapActivity extends FragmentActivity implements OnMapReadyCallback {
+    private final int FINE_LOCATION_AVAILABLE = 0;
 
     private GoogleMap mMap;
     PokemonNfcReader nfcReader = new PokemonNfcReader(RegisterCodeActivity.class, this);
@@ -77,6 +70,29 @@ public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setCompassEnabled(true);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_AVAILABLE);
+
+        //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        //        && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        //    mMap.setMyLocationEnabled(true);
+        //}this,
         new PokemonLocationTask(mMap).execute();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != FINE_LOCATION_AVAILABLE)
+            return;
+        for (int i = 0; i < grantResults.length; i++) {
+            if (permissions[i].equals(Manifest.permission.ACCESS_FINE_LOCATION) && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    continue;
+                }
+                mMap.setMyLocationEnabled(true);
+            }
+        }
     }
 }
