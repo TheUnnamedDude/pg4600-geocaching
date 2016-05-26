@@ -5,5 +5,5 @@
     <string name="pokemonIdDescription">Please enter the code or use the NFC reader on your phone to register this code</string>
     <string name="submit">Check and submit</string>
     <string name="pokemonIdHint">Enter the pokemon ID</string>
-    <string name="title_activity_pokemon_map">Map</string>
+    <string name="title_activity_pokemon_map">Pokemon catcher</string>
 </resources>

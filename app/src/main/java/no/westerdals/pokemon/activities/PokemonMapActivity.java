@@ -2,10 +2,12 @@ package no.westerdals.pokemon.activities;
 
 import android.content.Intent;
 import android.nfc.NfcAdapter;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,6 +40,8 @@ public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyC
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         nfcReader.initialize();
+
+
     }
 
     @Override
