@@ -38,8 +38,8 @@ public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyC
         createFabMenu();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment
+                = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         nfcReader.initialize();
     }

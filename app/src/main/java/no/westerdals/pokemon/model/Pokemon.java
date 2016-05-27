@@ -23,7 +23,7 @@ public class Pokemon {
             FIELD_LNG + " DOUBLE NOT NULL, " +
             FIELD_IMAGE_URL + " CHAR(255));";
 
-    private String id;
+    private int id;
     @SerializedName("_id")
     private String mongodbId;
     @SerializedName("id")
@@ -34,9 +34,8 @@ public class Pokemon {
     private double lng;
     private String imageUrl;
 
-    public Pokemon(String sqliteId, String mongodbId, String pokemonId, String name, boolean caught,
+    public Pokemon(String mongodbId, String pokemonId, String name, boolean caught,
                    double lat, double lng, String imageUrl) {
-        this.id = sqliteId;
         this.mongodbId = mongodbId;
         this.pokemonId = pokemonId;
         this.name = name;
@@ -46,7 +45,7 @@ public class Pokemon {
         this.imageUrl = imageUrl;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -76,5 +75,23 @@ public class Pokemon {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Pokemon{" +
+                "id=" + id +
+                ", mongodbId='" + mongodbId + '\'' +
+                ", pokemonId='" + pokemonId + '\'' +
+                ", name='" + name + '\'' +
+                ", caught=" + caught +
+                ", lat=" + lat +
+                ", lng=" + lng +
+                ", imageUrl='" + imageUrl + '\'' +
+                '}';
     }
 }

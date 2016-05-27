@@ -32,22 +32,29 @@ public class PokemonDatabase extends SQLiteOpenHelper {
 
     public long insertPokemon(Pokemon pokemon) {
         SQLiteDatabase db = getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(Pokemon.FIELD_MONGODB_ID, pokemon.getMongodbId());
-        contentValues.put(Pokemon.FIELD_NAME, pokemon.getName());
-        contentValues.put(Pokemon.FIELD_CAUGHT, false);
-        contentValues.put(Pokemon.FIELD_LAT, pokemon.getLat());
-        contentValues.put(Pokemon.FIELD_LNG, pokemon.getLng());
+        ContentValues contentValues = getContentValues(pokemon);
         return db.insertOrThrow(Pokemon.TABLE_NAME, null, contentValues);
     }
 
     public void updatePokemon(Pokemon pokemon) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Pokemon.FIELD_CAUGHT, pokemon.isCaught());
+        contentValues.put(Pokemon.FIELD_CAUGHT, pokemon.isCaught() ? 1 : 0);
         contentValues.put(Pokemon.FIELD_POKEMON_ID, pokemon.getPokemonId());
         contentValues.put(Pokemon.FIELD_IMAGE_URL, pokemon.getImageUrl());
-        db.update(Pokemon.TABLE_NAME, contentValues, "mongodbId", new String[] {pokemon.getMongodbId()});
+        db.update(Pokemon.TABLE_NAME, contentValues, "mongodbId = ?", new String[] {pokemon.getMongodbId()});
+    }
+
+    public ContentValues getContentValues(Pokemon pokemon) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Pokemon.FIELD_MONGODB_ID, pokemon.getMongodbId());
+        contentValues.put(Pokemon.FIELD_NAME, pokemon.getName());
+        contentValues.put(Pokemon.FIELD_CAUGHT, pokemon.isCaught() ? 1 : 0);
+        contentValues.put(Pokemon.FIELD_LAT, pokemon.getLat());
+        contentValues.put(Pokemon.FIELD_LNG, pokemon.getLng());
+        contentValues.put(Pokemon.FIELD_POKEMON_ID, pokemon.getPokemonId());
+        contentValues.put(Pokemon.FIELD_IMAGE_URL, pokemon.getImageUrl());
+        return contentValues;
     }
 
 
@@ -55,7 +62,7 @@ public class PokemonDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<Pokemon> pokemons = new ArrayList<>();
         Cursor cursor = db.query(Pokemon.TABLE_NAME, null, null, null, null, null, null);
-        //int sqliteIdIndex = cursor.getColumnIndex(Pokemon.FIELD_SQLITE_ID);
+        int sqliteIdIndex = cursor.getColumnIndex(Pokemon.FIELD_SQLITE_ID);
         int mongodbIdIndex = cursor.getColumnIndex(Pokemon.FIELD_MONGODB_ID);
         int pokemonIdIndex = cursor.getColumnIndex(Pokemon.FIELD_POKEMON_ID);
         int nameIndex = cursor.getColumnIndex(Pokemon.FIELD_NAME);
@@ -64,13 +71,20 @@ public class PokemonDatabase extends SQLiteOpenHelper {
         int lngIndex = cursor.getColumnIndex(Pokemon.FIELD_LNG);
         int imageUrlIndex = cursor.getColumnIndex(Pokemon.FIELD_IMAGE_URL);
         while (cursor.moveToNext()) {
-            pokemons.add(new Pokemon(null,
+            Pokemon pokemon = new Pokemon(
                     cursor.getString(mongodbIdIndex), cursor.getString(pokemonIdIndex),
                     cursor.getString(nameIndex), cursor.getInt(caughtIndex) == 1,
                     cursor.getDouble(latIndex), cursor.getDouble(lngIndex),
-                    cursor.getString(imageUrlIndex)));
+                    cursor.getString(imageUrlIndex));
+            pokemon.setId(cursor.getInt(sqliteIdIndex));
+            pokemons.add(pokemon);
         }
         cursor.close();
         return pokemons;
+    }
+
+    public int deleteUncaughtPokemon() {
+        SQLiteDatabase db = getWritableDatabase();
+        return db.delete(Pokemon.TABLE_NAME, Pokemon.FIELD_CAUGHT + " = ?", new String[] {"0"});
     }
 }
