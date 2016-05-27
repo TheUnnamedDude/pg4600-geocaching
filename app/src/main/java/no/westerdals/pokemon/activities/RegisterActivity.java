@@ -82,6 +82,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void submit() {
-        LehmannApi api = new LehmannApi();
+        // LehmannApi api = new LehmannApi();
     }
 }
