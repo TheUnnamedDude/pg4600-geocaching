@@ -4,6 +4,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
+import android.util.Log;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -24,13 +25,16 @@ public class PokemonDatabaseTest {
 
     @Before
     public void setUp() throws Exception {
-        RenamingDelegatingContext context = new RenamingDelegatingContext(activityRule.getActivity(), "test_");
+        RenamingDelegatingContext context = new RenamingDelegatingContext(activityRule.getActivity(),
+                "test_");
         this.pokemonDatabase = new PokemonDatabase(context);
     }
 
     @Test
     public void testInsertPokemon() throws Exception {
-        pokemonDatabase.insertPokemon(new Pokemon("5747311b70a90e63f44c2971", null, "Pikachu", false, 1.3, 3.7, null));
+        pokemonDatabase.insertPokemon(new Pokemon(null, "5747311b70a90e63f44c2971", null,
+                "Pikachu", false, 1.3, 3.7, null));
+        assertEquals(1, pokemonDatabase.getAllPokemons().size());
     }
 
     @Test

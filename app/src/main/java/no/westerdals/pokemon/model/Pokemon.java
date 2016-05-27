@@ -14,14 +14,14 @@ public class Pokemon {
     public static final String FIELD_IMAGE_URL = "imageUrl";
 
     public static final String SQL_CREATE = "CREATE TABLE " + TABLE_NAME + " (" +
-            FIELD_SQLITE_ID + " INTEGER PRIMARY KEY, " +
+            FIELD_SQLITE_ID + " INT PRIMARY KEY, " +
             FIELD_MONGODB_ID + " CHAR(24) NOT NULL UNIQUE, " +
-            FIELD_POKEMON_ID +" CHAR(64) NOT NULL, " +
+            FIELD_POKEMON_ID +" CHAR(64), " +
             FIELD_NAME + " CHAR(64) NOT NULL, " +
-            FIELD_CAUGHT + " BOOLEAN, " +
+            FIELD_CAUGHT + " INT DEFAULT 0, " +
             FIELD_LAT + " DOUBLE NOT NULL, " +
             FIELD_LNG + " DOUBLE NOT NULL, " +
-            FIELD_IMAGE_URL + " CHAR(255) NOT NULL);";
+            FIELD_IMAGE_URL + " CHAR(255));";
 
     private String id;
     @SerializedName("_id")
@@ -34,8 +34,9 @@ public class Pokemon {
     private double lng;
     private String imageUrl;
 
-    public Pokemon(String mongodbId, String pokemonId, String name, boolean caught, double lat,
-                   double lng, String imageUrl) {
+    public Pokemon(String sqliteId, String mongodbId, String pokemonId, String name, boolean caught,
+                   double lat, double lng, String imageUrl) {
+        this.id = sqliteId;
         this.mongodbId = mongodbId;
         this.pokemonId = pokemonId;
         this.name = name;
