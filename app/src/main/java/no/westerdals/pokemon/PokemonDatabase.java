@@ -12,7 +12,7 @@ public class PokemonDatabase extends SQLiteOpenHelper {
     private final static String POKEMON_DATABASE = "pokemons.db";
 
     public PokemonDatabase(Context context) {
-        super(context, POKEMON_DATABASE, null, 0);
+        super(context, POKEMON_DATABASE, null, VERSION);
     }
 
     @Override

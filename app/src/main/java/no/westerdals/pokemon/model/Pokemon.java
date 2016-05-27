@@ -19,8 +19,8 @@ public class Pokemon {
             FIELD_POKEMON_ID +" CHAR(64) NOT NULL, " +
             FIELD_NAME + " CHAR(64) NOT NULL, " +
             FIELD_CAUGHT + " BOOLEAN, " +
-            FIELD_LAT + " DOUBLE NOT NULL" +
-            FIELD_LNG + " DOUBLE NOT NULL" +
+            FIELD_LAT + " DOUBLE NOT NULL, " +
+            FIELD_LNG + " DOUBLE NOT NULL, " +
             FIELD_IMAGE_URL + " CHAR(255) NOT NULL);";
 
     private String id;

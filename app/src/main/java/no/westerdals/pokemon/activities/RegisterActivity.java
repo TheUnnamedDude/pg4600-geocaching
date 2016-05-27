@@ -6,12 +6,14 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import no.westerdals.pokemon.R;
 import no.westerdals.pokemon.nfc.PokemonNfcReader;
 
-public class RegisterCodeActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
     private final PokemonNfcReader nfcReader = new PokemonNfcReader(null, this);
     private EditText inputPokemonId;
 
@@ -26,6 +28,14 @@ public class RegisterCodeActivity extends AppCompatActivity {
             inputPokemonId.setText(pokemonId);
         }
         nfcReader.initialize();
+
+        Button closeRegisterBtn = (Button) findViewById(R.id.close_register_button);
+        closeRegisterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -43,7 +53,7 @@ public class RegisterCodeActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Log.d("NFC", intent.getAction());
+        Log.d(" NFC", intent.getAction());
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             nfcReader.handleIntent(intent);
         }
