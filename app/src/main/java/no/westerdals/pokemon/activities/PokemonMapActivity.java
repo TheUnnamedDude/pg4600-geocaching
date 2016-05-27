@@ -98,15 +98,12 @@ public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyC
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setCompassEnabled(true);
-<<<<<<< HEAD
         ActivityCompat.requestPermissions(
                 this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_AVAILABLE);
-=======
         ArrayList<String> requestedPermissions = new ArrayList<>();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
             // Request the permission
             requestedPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
->>>>>>> 9321673835670595687080d3cc5cf1a69f322c04
 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_AVAILABLE);
         } else {
