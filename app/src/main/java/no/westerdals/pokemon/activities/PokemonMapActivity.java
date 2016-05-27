@@ -128,7 +128,8 @@ public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyC
             String[] request = new String[requestedPermissions.size()];
             requestedPermissions.toArray(request);
         }
-        new PokemonLocationTask(mMap).execute();
+
+        new SetMarkers(mMap, this).execute();
     }
 
     @Override
