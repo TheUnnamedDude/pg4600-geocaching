@@ -9,9 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.logging.Logger;
 
 import no.westerdals.pokemon.LehmannApi;
 import no.westerdals.pokemon.PokemonDatabase;
@@ -94,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void setInputPokemonIdFromIntent() {
         String pokemonId = getIntent().getStringExtra("pokemonId");
         if (pokemonId != null) {
-            txtInputPokemonId.setText(pokemonId);
+            txtInputPokemonId.setText(pokemonId.trim());
         }
     }
 
@@ -106,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
                 boolean shouldPersistPokemon = (pokemon != null);
 
                 if (shouldPersistPokemon) {
-                    db.updatePokemon(requestPokemonFromServer());
+                    db.catchPokemon(pokemon);
                 }
                 return shouldPersistPokemon;
             }

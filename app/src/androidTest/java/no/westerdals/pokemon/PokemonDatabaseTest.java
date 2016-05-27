@@ -48,7 +48,7 @@ public class PokemonDatabaseTest {
     public void testUpdatePokemon() throws Exception {
         pokemonDatabase.insertPokemon(new Pokemon("5747311b70a90e63f44c2971", null,
                 "Pikachu", false, 1.3, 3.7, null));
-        pokemonDatabase.updatePokemon(new Pokemon("5747311b70a90e63f44c2971", "pikachuid", null, true, 0, 0, "image.png"));
+        pokemonDatabase.catchPokemon(new Pokemon("5747311b70a90e63f44c2971", "pikachuid", null, true, 0, 0, "image.png"));
         Pokemon pokemon = pokemonDatabase.getAllPokemons().get(0);
         assertEquals("Pikachu", pokemon.getName());
         assertEquals(true, pokemon.isCaught());

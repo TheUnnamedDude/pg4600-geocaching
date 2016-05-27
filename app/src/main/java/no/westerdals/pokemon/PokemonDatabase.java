@@ -36,13 +36,13 @@ public class PokemonDatabase extends SQLiteOpenHelper {
         return db.insertWithOnConflict(Pokemon.TABLE_NAME, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
     }
 
-    public void updatePokemon(Pokemon pokemon) {
+    public int catchPokemon(Pokemon pokemon) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Pokemon.FIELD_CAUGHT, pokemon.isCaught() ? 1 : 0);
+        contentValues.put(Pokemon.FIELD_CAUGHT, 1);
         contentValues.put(Pokemon.FIELD_POKEMON_ID, pokemon.getPokemonId());
         contentValues.put(Pokemon.FIELD_IMAGE_URL, pokemon.getImageUrl());
-        db.update(Pokemon.TABLE_NAME, contentValues, "mongodbId = ?", new String[] {pokemon.getMongodbId()});
+        return db.update(Pokemon.TABLE_NAME, contentValues, Pokemon.FIELD_NAME + " = ?", new String[] {pokemon.getName()});
     }
 
     public ContentValues getContentValues(Pokemon pokemon) {

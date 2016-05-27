@@ -86,6 +86,9 @@ public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyC
     protected void onResume() {
         super.onResume();
         nfcReader.enableNfc();
+        if (mMap != null) {
+            updateMarkers();
+        }
     }
 
     @Override
