@@ -24,10 +24,11 @@ public class PokemonLocationTask extends AsyncTask<Void, Void, PokemonLocation[]
     @Override
     protected PokemonLocation[] doInBackground(Void... params) {
         try {
-            return GSON.fromJson(
+            PokemonLocation[] pokemonLocations = GSON.fromJson(
                     new InputStreamReader(
                             new URL("https://locations.lehmann.tech/locations")
                                     .openStream()), PokemonLocation[].class);
+            return pokemonLocations;
         } catch (IOException e) {
             e.printStackTrace();
             return new PokemonLocation[0];
@@ -38,10 +39,13 @@ public class PokemonLocationTask extends AsyncTask<Void, Void, PokemonLocation[]
     protected void onPostExecute(PokemonLocation[] locations) {
         LatLngBounds.Builder bounds = LatLngBounds.builder();
         for (PokemonLocation location : locations) {
+            // TODO: check against db if pokemon is captured
             LatLng latLng = new LatLng(location.getLat(), location.getLng());
             map.addMarker(new MarkerOptions().position(latLng).title(location.getName()));
             bounds.include(latLng);
+
+            System.out.println("Pokemon: " + location.toString());
         }
-        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 50));
+        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 200));
     }
 }
