@@ -21,7 +21,6 @@ public class RegisterActivity extends AppCompatActivity {
     private final PokemonNfcReader nfcReader = new PokemonNfcReader(null, this);
 
     private PokemonDatabase db;
-    private String accessToken;
     private LehmannApi api;
 
     private TextView txtError;
@@ -63,8 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void init() {
         db = new PokemonDatabase(this);
-        accessToken = getString(R.string.accessToken);
-        api = new LehmannApi(accessToken);
+        api = new LehmannApi(getString(R.string.accessToken));
 
         txtError = (TextView) findViewById(R.id.errorDescription);
         txtInputPokemonId = (EditText) findViewById(R.id.inputPokemonId);
@@ -101,7 +99,6 @@ public class RegisterActivity extends AppCompatActivity {
             protected Boolean doInBackground(Void... params) {
                 Pokemon pokemon = requestPokemonFromServer();
                 boolean shouldPersistPokemon = (pokemon != null);
-
                 if (shouldPersistPokemon) {
                     db.catchPokemon(pokemon);
                 }
