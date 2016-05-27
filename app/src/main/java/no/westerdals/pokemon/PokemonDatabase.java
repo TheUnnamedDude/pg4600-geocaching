@@ -33,7 +33,7 @@ public class PokemonDatabase extends SQLiteOpenHelper {
     public long insertPokemon(Pokemon pokemon) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = getContentValues(pokemon);
-        return db.insertOrThrow(Pokemon.TABLE_NAME, null, contentValues);
+        return db.insertWithOnConflict(Pokemon.TABLE_NAME, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
     }
 
     public void updatePokemon(Pokemon pokemon) {

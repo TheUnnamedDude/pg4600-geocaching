@@ -23,7 +23,7 @@ public class Pokemon {
             FIELD_LNG + " DOUBLE NOT NULL, " +
             FIELD_IMAGE_URL + " CHAR(255));";
 
-    private int id;
+    private transient int id;
     @SerializedName("_id")
     private String mongodbId;
     @SerializedName("id")

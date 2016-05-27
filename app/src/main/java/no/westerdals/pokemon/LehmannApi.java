@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import no.westerdals.pokemon.model.Pokemon;
+
 public class LehmannApi {
     private final static String BASE_URL = "https://locations.lehmann.tech";
     private final static Gson GSON = new Gson();
@@ -17,12 +19,12 @@ public class LehmannApi {
         this.apiKey = apiKey;
     }
 
-    public PokemonLocation[] getLocations() {
-        return get(BASE_URL + "/locations", false, PokemonLocation[].class);
+    public Pokemon[] getLocations() {
+        return get(BASE_URL + "/locations", false, Pokemon[].class);
     }
 
-    public PokemonInfo getPokemonInfo(String pokemonId) {
-        return get(BASE_URL + "/pokemon/" + pokemonId, true, PokemonInfo.class);
+    public Pokemon getPokemonInfo(String pokemonId) {
+        return get(BASE_URL + "/pokemon/" + pokemonId, true, Pokemon.class);
     }
 
     private <T>T get(String url, boolean setKey, Class<T> t) {
@@ -30,7 +32,7 @@ public class LehmannApi {
         try {
             connection = (HttpURLConnection) new URL(url).openConnection();
             if (setKey) {
-                connection.setRequestProperty("X-TOKEN", apiKey);
+                connection.setRequestProperty("X-Token", apiKey);
             }
             connection.setDoInput(true);
             connection.connect();

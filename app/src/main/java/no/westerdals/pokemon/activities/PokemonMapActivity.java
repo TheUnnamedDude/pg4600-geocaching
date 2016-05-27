@@ -21,14 +21,19 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.ArrayList;
 
+import no.westerdals.pokemon.LehmannApi;
+import no.westerdals.pokemon.PokemonDatabase;
 import no.westerdals.pokemon.PokemonLocationTask;
 import no.westerdals.pokemon.R;
 import no.westerdals.pokemon.nfc.PokemonNfcReader;
+import no.westerdals.pokemon.tasks.UpdateCacheTask;
 
 public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private final int FINE_LOCATION_AVAILABLE = 0;
 
-    private GoogleMap mMap;
+    public GoogleMap mMap;
+    private LehmannApi lehmannApi;
+    private PokemonDatabase pokemonDatabase;
     PokemonNfcReader nfcReader = new PokemonNfcReader(RegisterActivity.class, this);
 
     @Override
@@ -67,6 +72,10 @@ public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyC
                 }
             });
         }
+
+        this.pokemonDatabase = new PokemonDatabase(this);
+        this.lehmannApi = new LehmannApi(getString(R.string.accessToken));
+        new UpdateCacheTask(this, pokemonDatabase, lehmannApi).execute();
     }
 
     @Override
