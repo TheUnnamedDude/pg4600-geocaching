@@ -34,6 +34,17 @@ public class Pokemon {
     private double lng;
     private String imageUrl;
 
+    public Pokemon(String mongodbId, String pokemonId, String name, boolean caught, double lat,
+                   double lng, String imageUrl) {
+        this.mongodbId = mongodbId;
+        this.pokemonId = pokemonId;
+        this.name = name;
+        this.caught = caught;
+        this.lat = lat;
+        this.lng = lng;
+        this.imageUrl = imageUrl;
+    }
+
     public String getId() {
         return id;
     }

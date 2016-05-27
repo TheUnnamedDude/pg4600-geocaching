@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import no.westerdals.pokemon.model.Pokemon;
 
 public class PokemonDatabase extends SQLiteOpenHelper {
-    private static final int VERSION = 0;
+    private static final int VERSION = 1;
     private final static String POKEMON_DATABASE = "pokemons.db";
 
     public PokemonDatabase(Context context) {
