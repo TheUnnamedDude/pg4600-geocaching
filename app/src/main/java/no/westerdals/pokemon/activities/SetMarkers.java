@@ -45,6 +45,7 @@ public class SetMarkers extends AsyncTask<Void, Void, List<Pokemon>> {
             } else {
                 marker.alpha(0.3f);
             }
+
             mMap.addMarker(marker);
             mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 200));
         }

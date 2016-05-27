@@ -1,29 +1,32 @@
 package no.westerdals.pokemon.activities;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.View;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
 
 import no.westerdals.pokemon.LehmannApi;
 import no.westerdals.pokemon.PokemonDatabase;
-import no.westerdals.pokemon.PokemonLocationTask;
 import no.westerdals.pokemon.R;
 import no.westerdals.pokemon.nfc.PokemonNfcReader;
 import no.westerdals.pokemon.tasks.UpdateCacheTask;
@@ -130,6 +133,36 @@ public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyC
         }
 
         new SetMarkers(mMap, this).execute();
+        createFabMenuAnim(mMap);
+    }
+
+    private void createFabMenuAnim(final GoogleMap mMap) {
+        FloatingActionMenu fabMenu = (FloatingActionMenu)findViewById(R.id.fab_menu);
+        final ObjectAnimator moveUp = ObjectAnimator.ofFloat(fabMenu, "y", -250);
+        final ObjectAnimator moveDown = ObjectAnimator.ofFloat(fabMenu, "y", 0);
+        final boolean[] markerIsSelected = {false};
+
+        mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if (!markerIsSelected[0]){
+                    System.out.println("Clicked on " + marker.getTitle());
+                    moveUp.setDuration(500);
+                    moveUp.start();
+                }
+                markerIsSelected[0] = true;
+                return false;
+            }
+        });
+
+        mMap.setOnMapClickListener(new OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                moveDown.setDuration(500);
+                moveDown.start();
+                markerIsSelected[0] = false;
+            }
+        });
     }
 
     @Override
