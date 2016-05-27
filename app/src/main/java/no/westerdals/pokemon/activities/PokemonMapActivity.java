@@ -29,6 +29,7 @@ import no.westerdals.pokemon.LehmannApi;
 import no.westerdals.pokemon.PokemonDatabase;
 import no.westerdals.pokemon.R;
 import no.westerdals.pokemon.nfc.PokemonNfcReader;
+import no.westerdals.pokemon.tasks.SetMarkersTask;
 import no.westerdals.pokemon.tasks.UpdateCacheTask;
 
 public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -132,13 +133,14 @@ public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyC
             requestedPermissions.toArray(request);
         }
 
-        new SetMarkers(mMap, this).execute();
+        updateMarkers();
+        new SetMarkersTask(mMap, this).execute();
         createFabMenuAnim(mMap);
     }
 
     private void createFabMenuAnim(final GoogleMap mMap) {
         FloatingActionMenu fabMenu = (FloatingActionMenu)findViewById(R.id.fab_menu);
-        final ObjectAnimator moveUp = ObjectAnimator.ofFloat(fabMenu, "y", -250);
+        final ObjectAnimator moveUp = ObjectAnimator.ofFloat(fabMenu, "y", -230);
         final ObjectAnimator moveDown = ObjectAnimator.ofFloat(fabMenu, "y", 0);
         final boolean[] markerIsSelected = {false};
 
@@ -163,6 +165,10 @@ public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyC
                 markerIsSelected[0] = false;
             }
         });
+    }
+
+    public void updateMarkers() {
+        new SetMarkersTask(mMap, this).execute();
     }
 
     @Override
