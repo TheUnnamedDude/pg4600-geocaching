@@ -1,4 +1,4 @@
-package no.westerdals.pokemon.activities;
+package no.westerdals.pokemon.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -16,11 +16,11 @@ import no.westerdals.pokemon.PokemonDatabase;
 import no.westerdals.pokemon.R;
 import no.westerdals.pokemon.model.Pokemon;
 
-public class SetMarkers extends AsyncTask<Void, Void, List<Pokemon>> {
+public class SetMarkersTask extends AsyncTask<Void, Void, List<Pokemon>> {
     private GoogleMap mMap;
     Context context;
 
-    public SetMarkers(GoogleMap mMap, Context context) {
+    public SetMarkersTask(GoogleMap mMap, Context context) {
         this.mMap = mMap;
         this.context = context;
     }

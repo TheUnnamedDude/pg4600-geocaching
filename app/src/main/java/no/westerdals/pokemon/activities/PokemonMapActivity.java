@@ -23,9 +23,9 @@ import java.util.ArrayList;
 
 import no.westerdals.pokemon.LehmannApi;
 import no.westerdals.pokemon.PokemonDatabase;
-import no.westerdals.pokemon.PokemonLocationTask;
 import no.westerdals.pokemon.R;
 import no.westerdals.pokemon.nfc.PokemonNfcReader;
+import no.westerdals.pokemon.tasks.SetMarkersTask;
 import no.westerdals.pokemon.tasks.UpdateCacheTask;
 
 public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -128,8 +128,11 @@ public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyC
             String[] request = new String[requestedPermissions.size()];
             requestedPermissions.toArray(request);
         }
+        updateMarkers();
+    }
 
-        new SetMarkers(mMap, this).execute();
+    public void updateMarkers() {
+        new SetMarkersTask(mMap, this).execute();
     }
 
     @Override

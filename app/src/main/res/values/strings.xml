@@ -9,4 +9,6 @@
     <string name="title_activity_pokemon_map">Pokemon catcher</string>
     <string name="cancelBtn">Cancel</string>
     <string name="nfc_tag">NFC Tag</string>
+    <string name="capturedPokemonsLabel">Captured Pokémons</string>
+    <string name="pokemon_image_description">Pokemon image</string>
 </resources>

@@ -34,7 +34,7 @@ public class UpdateCacheTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void v) {
         super.onPostExecute(v);
         if (mapActivity.mMap != null) {
-            // TODO: Update markers
+            mapActivity.updateMarkers();
         }
     }
 }
