@@ -24,7 +24,10 @@ public class PokemonLocationTask extends AsyncTask<Void, Void, PokemonLocation[]
     @Override
     protected PokemonLocation[] doInBackground(Void... params) {
         try {
-            return GSON.fromJson(new InputStreamReader(new URL("https://locations.lehmann.tech/locations").openStream()), PokemonLocation[].class);
+            return GSON.fromJson(
+                    new InputStreamReader(
+                            new URL("https://locations.lehmann.tech/locations")
+                                    .openStream()), PokemonLocation[].class);
         } catch (IOException e) {
             e.printStackTrace();
             return new PokemonLocation[0];

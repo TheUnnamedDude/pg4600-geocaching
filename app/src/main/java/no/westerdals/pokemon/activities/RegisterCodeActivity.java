@@ -21,6 +21,7 @@ public class RegisterCodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         inputPokemonId = (EditText) findViewById(R.id.inputPokemonId);
         String pokemonId = getIntent().getStringExtra("pokemonId");
+
         if (pokemonId != null) {
             inputPokemonId.setText(pokemonId);
         }
