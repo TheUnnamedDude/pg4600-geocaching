@@ -9,36 +9,69 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="no.westerdals.pokemon.activities.RegisterCodeActivity">
+    tools:context=".activities.RegisterActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/pokemonIdDescription"
         android:id="@+id/pokemonIdDescription"
+        android:textSize="20sp"
+        android:gravity="center_horizontal"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:paddingRight="25dp"
+        android:paddingLeft="25dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/inputPokemonId"
-        android:layout_below="@+id/pokemonIdDescription"
+        android:hint="@string/pokemonIdHint"
+        android:textSize="25sp"
+        android:layout_above="@+id/buttonCheckAndSubmit"
+        android:layout_alignRight="@+id/buttonCheckAndSubmit"
+        android:layout_alignEnd="@+id/buttonCheckAndSubmit"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/pokemonIdDescription"
-        android:layout_alignEnd="@+id/pokemonIdDescription"
-        android:hint="@string/pokemonIdHint"/>
+        android:gravity="center_horizontal"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/submit"
         android:id="@+id/buttonCheckAndSubmit"
-        android:layout_below="@+id/inputPokemonId"
+        android:textSize="20sp"
+        android:height="80dp"
+        android:layout_above="@+id/close_register_button"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/close_register_button"
+        android:layout_alignEnd="@+id/close_register_button" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/ic_nfc_black_48px"
+        android:minWidth="150dp"
+        android:minHeight="150dp"
+        android:layout_marginTop="60dp"
+        android:layout_below="@+id/pokemonIdDescription"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/nfc_tag" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancelBtn"
+        android:id="@+id/close_register_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/pokemonIdDescription"
+        android:layout_alignEnd="@+id/pokemonIdDescription" />
 
 
 </RelativeLayout>

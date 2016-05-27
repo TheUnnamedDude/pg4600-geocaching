@@ -7,9 +7,11 @@ import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -18,11 +20,11 @@ import no.westerdals.pokemon.PokemonLocationTask;
 import no.westerdals.pokemon.R;
 import no.westerdals.pokemon.nfc.PokemonNfcReader;
 
-public class PokemonMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private final int FINE_LOCATION_AVAILABLE = 0;
 
     private GoogleMap mMap;
-    PokemonNfcReader nfcReader = new PokemonNfcReader(RegisterCodeActivity.class, this);
+    PokemonNfcReader nfcReader = new PokemonNfcReader(RegisterActivity.class, this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,27 @@ public class PokemonMapActivity extends FragmentActivity implements OnMapReadyCa
         mapFragment.getMapAsync(this);
         nfcReader.initialize();
 
+        FloatingActionButton captureBtn = (FloatingActionButton) findViewById(R.id.capture_button);
+        FloatingActionButton listBtn = (FloatingActionButton) findViewById(R.id.list_button);
 
+        if (captureBtn != null) {
+            captureBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(PokemonMapActivity.this, RegisterActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
+        if (listBtn != null) {
+            listBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("List pokemon (onclick)!");
+                }
+            });
+        }
     }
 
     @Override

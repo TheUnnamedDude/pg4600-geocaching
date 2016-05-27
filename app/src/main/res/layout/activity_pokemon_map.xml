@@ -22,7 +22,7 @@
         android:layout_alignParentEnd="true" />
 
     <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/menu_red"
+        android:id="@+id/fab_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
@@ -35,18 +35,20 @@
         fab:menu_backgroundColor="#ccffffff">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab2"
+            android:id="@+id/capture_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/pokeball"
+            android:onClick="capturePokemon"
             fab:fab_size="mini"
             fab:fab_label="Capture" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab3"
+            android:id="@+id/list_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/playlist"
+            android:onClick="listPokemon"
             fab:fab_size="mini"
             fab:fab_label="List" />
 
