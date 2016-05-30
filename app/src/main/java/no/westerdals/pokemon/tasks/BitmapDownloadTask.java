@@ -27,6 +27,8 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        imageView.setImageBitmap(bitmap);
+        if (!isCancelled()) {
+            imageView.setImageBitmap(bitmap);
+        }
     }
 }

@@ -35,11 +35,14 @@ public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (PokemonViewHolder) convertView.getTag();
+            if (viewHolder.updateImageTask != null && !viewHolder.updateImageTask.isCancelled()) {
+                viewHolder.updateImageTask.cancel(true);
+            }
         }
 
         Pokemon pokemon = pokemons.get(position);
         if (pokemon.getImageUrl() != null) {
-            new BitmapDownloadTask(viewHolder.pokemonImage).execute(pokemon.getImageUrl());
+            viewHolder.updateImageTask = new BitmapDownloadTask(viewHolder.pokemonImage).execute(pokemon.getImageUrl());
             viewHolder.pokemonImage.setAlpha(1.0f);
         } else {
             viewHolder.pokemonImage.setImageResource(R.drawable.marker_pokeball);
