@@ -20,6 +20,7 @@ import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
@@ -119,6 +120,7 @@ public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyC
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
         ActivityCompat.requestPermissions(
                 this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_AVAILABLE);
         ArrayList<String> requestedPermissions = new ArrayList<>();
@@ -147,6 +149,7 @@ public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyC
         final ObjectAnimator moveDown = ObjectAnimator.ofFloat(fabMenu, "y", 0);
         final boolean[] markerIsSelected = {false};
 
+        /*
         mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -168,6 +171,7 @@ public class PokemonMapActivity extends AppCompatActivity implements OnMapReadyC
                 markerIsSelected[0] = false;
             }
         });
+        */
     }
 
     public void updateMarkers() {

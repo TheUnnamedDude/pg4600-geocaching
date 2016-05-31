@@ -19,6 +19,6 @@ public class ListActivity extends AppCompatActivity {
 
         this.listView = (ListView) findViewById(R.id.pokemonListView);
         PokemonDatabase pokemonDatabase = new PokemonDatabase(this);
-        listView.setAdapter(new PokemonArrayAdapter(this, pokemonDatabase.getAllPokemons()));
+        listView.setAdapter(new PokemonArrayAdapter(this, pokemonDatabase.getCaughtPokemons()));
     }
 }

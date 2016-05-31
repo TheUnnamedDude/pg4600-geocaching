@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.support.v4.media.MediaMetadataCompat;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import no.westerdals.pokemon.model.Pokemon;
@@ -62,6 +63,31 @@ public class PokemonDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<Pokemon> pokemons = new ArrayList<>();
         Cursor cursor = db.query(Pokemon.TABLE_NAME, null, null, null, null, null, null);
+        int sqliteIdIndex = cursor.getColumnIndex(Pokemon.FIELD_SQLITE_ID);
+        int mongodbIdIndex = cursor.getColumnIndex(Pokemon.FIELD_MONGODB_ID);
+        int pokemonIdIndex = cursor.getColumnIndex(Pokemon.FIELD_POKEMON_ID);
+        int nameIndex = cursor.getColumnIndex(Pokemon.FIELD_NAME);
+        int caughtIndex = cursor.getColumnIndex(Pokemon.FIELD_CAUGHT);
+        int latIndex = cursor.getColumnIndex(Pokemon.FIELD_LAT);
+        int lngIndex = cursor.getColumnIndex(Pokemon.FIELD_LNG);
+        int imageUrlIndex = cursor.getColumnIndex(Pokemon.FIELD_IMAGE_URL);
+        while (cursor.moveToNext()) {
+            Pokemon pokemon = new Pokemon(
+                    cursor.getString(mongodbIdIndex), cursor.getString(pokemonIdIndex),
+                    cursor.getString(nameIndex), cursor.getInt(caughtIndex) == 1,
+                    cursor.getDouble(latIndex), cursor.getDouble(lngIndex),
+                    cursor.getString(imageUrlIndex));
+            pokemon.setId(cursor.getInt(sqliteIdIndex));
+            pokemons.add(pokemon);
+        }
+        cursor.close();
+        return pokemons;
+    }
+
+    public ArrayList<Pokemon> getCaughtPokemons(){
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<Pokemon> pokemons = new ArrayList<>();
+        Cursor cursor = db.query(Pokemon.TABLE_NAME, null, "caught=1", null, null, null, null);
         int sqliteIdIndex = cursor.getColumnIndex(Pokemon.FIELD_SQLITE_ID);
         int mongodbIdIndex = cursor.getColumnIndex(Pokemon.FIELD_MONGODB_ID);
         int pokemonIdIndex = cursor.getColumnIndex(Pokemon.FIELD_POKEMON_ID);
