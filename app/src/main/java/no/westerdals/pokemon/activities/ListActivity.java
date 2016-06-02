@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import no.westerdals.pokemon.tasks.BitmapCacheTask;
 import no.westerdals.pokemon.ui.PokemonArrayAdapter;
 import no.westerdals.pokemon.PokemonDatabase;
 import no.westerdals.pokemon.R;
@@ -11,6 +12,7 @@ import no.westerdals.pokemon.R;
 public class ListActivity extends AppCompatActivity {
 
     ListView listView;
+    private BitmapCacheTask bitmapCacheTask = new BitmapCacheTask(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +20,8 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
 
         this.listView = (ListView) findViewById(R.id.pokemonListView);
+        bitmapCacheTask.execute("pokemon_images");
         PokemonDatabase pokemonDatabase = new PokemonDatabase(this);
-        listView.setAdapter(new PokemonArrayAdapter(this, pokemonDatabase.getCaughtPokemons()));
+        listView.setAdapter(new PokemonArrayAdapter(this, pokemonDatabase.getCaughtPokemons(), bitmapCacheTask));
     }
 }

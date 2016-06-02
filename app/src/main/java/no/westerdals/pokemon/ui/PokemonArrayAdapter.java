@@ -1,7 +1,6 @@
 package no.westerdals.pokemon.ui;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +12,16 @@ import java.util.ArrayList;
 
 import no.westerdals.pokemon.R;
 import no.westerdals.pokemon.model.Pokemon;
-import no.westerdals.pokemon.tasks.BitmapDownloadTask;
+import no.westerdals.pokemon.tasks.BitmapCacheTask;
+import no.westerdals.pokemon.tasks.LoadBitmapTask;
 
 public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
     private ArrayList<Pokemon> pokemons;
-    public PokemonArrayAdapter(Context context, ArrayList<Pokemon> pokemons) {
+    private BitmapCacheTask bitmapCache;
+    public PokemonArrayAdapter(Context context, ArrayList<Pokemon> pokemons, BitmapCacheTask bitmapCache) {
         super(context, R.layout.pokemon_list_item, pokemons);
         this.pokemons = pokemons;
+        this.bitmapCache = bitmapCache;
     }
 
     @Override
@@ -42,7 +44,8 @@ public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
 
         Pokemon pokemon = pokemons.get(position);
         if (pokemon.getImageUrl() != null) {
-            viewHolder.updateImageTask = new BitmapDownloadTask(viewHolder.pokemonImage).execute(pokemon.getImageUrl());
+            viewHolder.updateImageTask = new LoadBitmapTask(bitmapCache, viewHolder.pokemonImage)
+                    .execute(pokemon.getImageUrl());
             viewHolder.pokemonImage.setAlpha(1.0f);
         } else {
             viewHolder.pokemonImage.setImageResource(R.drawable.marker_pokeball);
