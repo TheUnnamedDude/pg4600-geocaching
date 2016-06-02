@@ -5,6 +5,8 @@ import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,6 +62,16 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_menu, menu);
+        return true;
+    }
+
+    public void closeActivity(MenuItem item) {
+        finish();
+    }
+
     private void init() {
         db = new PokemonDatabase(this);
         api = new LehmannApi(getString(R.string.accessToken));
@@ -67,7 +79,6 @@ public class RegisterActivity extends AppCompatActivity {
         txtError = (TextView) findViewById(R.id.errorDescription);
         txtInputPokemonId = (EditText) findViewById(R.id.inputPokemonId);
         btnSubmit = (Button) findViewById(R.id.buttonCheckAndSubmit);
-        btnCloseRegister = (Button) findViewById(R.id.close_register_button);
     }
 
     private void addListeners() {
@@ -75,13 +86,6 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 submit();
-            }
-        });
-
-        btnCloseRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
             }
         });
     }

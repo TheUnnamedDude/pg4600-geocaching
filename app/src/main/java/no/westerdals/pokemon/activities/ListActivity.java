@@ -2,6 +2,8 @@ package no.westerdals.pokemon.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import no.westerdals.pokemon.tasks.BitmapCacheTask;
@@ -23,5 +25,15 @@ public class ListActivity extends AppCompatActivity {
         bitmapCacheTask.execute("pokemon_images");
         PokemonDatabase pokemonDatabase = new PokemonDatabase(this);
         listView.setAdapter(new PokemonArrayAdapter(this, pokemonDatabase.getCaughtPokemons(), bitmapCacheTask));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_menu, menu);
+        return true;
+    }
+
+    public void closeActivity(MenuItem item) {
+        finish();
     }
 }
