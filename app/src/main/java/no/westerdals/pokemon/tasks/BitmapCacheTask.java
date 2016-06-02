@@ -29,7 +29,7 @@ public class BitmapCacheTask extends AsyncTask<String, Void, Void> {
         lock.lock();
         try {
             File cacheDir = new File(activity.getCacheDir(), params[0]);
-            diskCache = DiskLruCache.open(cacheDir, 1, 10, 1024*1024*10);
+            diskCache = DiskLruCache.open(cacheDir, 1, 1, 1024*1024*10);
             condition.signalAll();
         } catch (IOException e) {
             e.printStackTrace();
@@ -39,22 +39,27 @@ public class BitmapCacheTask extends AsyncTask<String, Void, Void> {
         return null;
     }
 
-    public Bitmap getBitmap(String key) {
+    public Bitmap getBitmap(String key, String url) {
+        lock.lock();
         try {
             waitForCache();
             DiskLruCache.Snapshot snapshot = diskCache.get(key);
             if (snapshot == null) {
                 // Download
-                Bitmap bitmap = getScaledBitmap(BitmapFactory.decodeStream(new URL(key).openStream()));
-                OutputStream outputStream = diskCache.edit(key).newOutputStream(0);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                Bitmap bitmap = getScaledBitmap(BitmapFactory.decodeStream(new URL(url).openStream()));
+                DiskLruCache.Editor editor = diskCache.edit(key);
+                OutputStream outputStream = editor.newOutputStream(0);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                 outputStream.close();
+                editor.commit();
                 return bitmap;
             }
             return BitmapFactory.decodeStream(diskCache.get(key).getInputStream(0));
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            lock.unlock();
         }
     }
 
@@ -75,7 +80,9 @@ public class BitmapCacheTask extends AsyncTask<String, Void, Void> {
         return Bitmap.createScaledBitmap(sourceBitmap, width, height, false);
     }
 
-    public void waitForCache() throws InterruptedException {
-        condition.await();
+    private void waitForCache() throws InterruptedException {
+        while (diskCache == null) {
+            condition.await();
+        }
     }
 }

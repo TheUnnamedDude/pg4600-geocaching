@@ -45,7 +45,7 @@ public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
         Pokemon pokemon = pokemons.get(position);
         if (pokemon.getImageUrl() != null) {
             viewHolder.updateImageTask = new LoadBitmapTask(bitmapCache, viewHolder.pokemonImage)
-                    .execute(pokemon.getImageUrl());
+                    .execute(pokemon);
             viewHolder.pokemonImage.setAlpha(1.0f);
         } else {
             viewHolder.pokemonImage.setImageResource(R.drawable.marker_pokeball);

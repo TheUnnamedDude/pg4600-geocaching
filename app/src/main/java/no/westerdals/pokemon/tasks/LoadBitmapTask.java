@@ -8,7 +8,9 @@ import android.widget.ImageView;
 import java.io.IOException;
 import java.net.URL;
 
-public class LoadBitmapTask extends AsyncTask<String, Void, Bitmap> {
+import no.westerdals.pokemon.model.Pokemon;
+
+public class LoadBitmapTask extends AsyncTask<Pokemon, Void, Bitmap> {
     private BitmapCacheTask bitmapCacheTask;
     private ImageView imageView;
 
@@ -18,8 +20,8 @@ public class LoadBitmapTask extends AsyncTask<String, Void, Bitmap> {
     }
 
     @Override
-    protected Bitmap doInBackground(String... params) {
-        return bitmapCacheTask.getBitmap(params[0]);
+    protected Bitmap doInBackground(Pokemon... params) {
+        return bitmapCacheTask.getBitmap(params[0].getMongodbId(), params[0].getImageUrl());
     }
 
     @Override
