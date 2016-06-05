@@ -34,6 +34,7 @@ public class SetMarkersTask extends AsyncTask<Void, Void, List<Pokemon>> {
     @Override
     protected void onPostExecute(List<Pokemon> pokemons) {
         super.onPostExecute(pokemons);
+        mMap.clear();
         LatLngBounds.Builder bounds = LatLngBounds.builder();
         for (Pokemon pokemon : pokemons) {
             LatLng latLng = new LatLng(pokemon.getLat(), pokemon.getLng());
