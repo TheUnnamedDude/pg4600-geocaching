@@ -1,3 +1,3 @@
-# pg4600-pokemon
+# pg4600-geocaching
 
-Gotta catch 'em all!
+A simple geocaching app made with the Android SDK
